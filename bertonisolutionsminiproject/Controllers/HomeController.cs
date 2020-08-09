@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using bertonisolutionsminiproject.Models;
 using bertonisolutionsminiproject.HttpClients;
 using bertonisolutionsminiproject.ViewModels.Home;
 
@@ -50,6 +45,7 @@ namespace bertonisolutionsminiproject.Controllers
 
             var viewModel = new CommentsViewModel()
             {
+                PhotoId = id,
                 Comments = comments.Select(comment => new CommentViewModel(comment.Name, comment.Email, comment.Body)).ToList(),
             };
 

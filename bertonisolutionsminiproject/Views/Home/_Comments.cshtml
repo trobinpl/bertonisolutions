@@ -1,9 +1,17 @@
-﻿@model bertonisolutionsminiproject.ViewModels.Home.CommentsViewModel
-@foreach(var comment in Model.Comments)
+﻿@model CommentsViewModel
+@if (Model.Comments.Any())
 {
-    <div>
-        <p>Name: @comment.Name</p>
-        <p>Body: @comment.Body</p>
-        <p>Email: @comment.Email</p>
-    </div>
+    @foreach (var comment in Model.Comments)
+    {
+        <div>
+            <p>Name: @comment.Name</p>
+            <p>Body: @comment.Body</p>
+            <p>Email: @comment.Email</p>
+        </div>
+    }
 }
+else
+{
+    <div>No comments found for photo: @Model.PhotoId</div>
+}
+

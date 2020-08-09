@@ -7,6 +7,7 @@ namespace bertonisolutionsminiproject.ViewModels.Home
 {
     public class CommentsViewModel
     {
+        public int PhotoId { get; set; }
         public List<CommentViewModel> Comments { get; set; }
     }
 }
