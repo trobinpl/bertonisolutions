@@ -1,24 +1,45 @@
 ﻿@model AlbumPhotosViewModel
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Url</th>
-            <th>Thumbnail Url</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var photo in Model.Photos)
-        {
-        <tr>
-            <td>@photo.Id</td>
-            <td>@photo.Title</td>
-            <td>@photo.Url</td>
-            <td>@photo.ThumbnailUrl</td>
-            <td><button data-photo-id="@photo.Id" class="loadPhotoComments">View Comments</button></td>
-        </tr>
-        }
-    </tbody>
-</table>
+@if (Model.Photos.Any())
+{
+    <table class="table-auto w-full">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Url</th>
+                <th>Thumbnail Url</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var photo in Model.Photos)
+            {
+                <tr>
+                    <td class="border px-4 py-2">@photo.Id</td>
+                    <td class="border px-4 py-2 truncate max-w-xs">@photo.Title</td>
+                    <td class="border px-4 py-2 truncate" style="max-width: 5rem"><a href="@photo.Url" title="@photo.Url">@photo.Url</a></td>
+                    <td class="border px-4 py-2 truncate" style="max-width: 5rem"><a href="@photo.ThumbnailUrl" title="@photo.ThumbnailUrl">@photo.ThumbnailUrl</a></td>
+                    <td class="px-4 py-2">
+                        <span class="inline-flex rounded-md shadow-sm">
+                            <button data-photo-id="@photo.Id" type="button" class="loadPhotoComments inline-flex items-center px-2 py-1 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
+                                View comments
+                            </button>
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="rounded-md bg-blue-100 p-4">
+        <div class="flex">
+            <div class="ml-3 flex-1 md:flex md:justify-between">
+                <p class="text-sm leading-5 text-blue-700">
+                    No photos found for album: @Model.AlbumId
+                </p>
+            </div>
+        </div>
+    </div>
+}

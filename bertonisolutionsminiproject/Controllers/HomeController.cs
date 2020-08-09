@@ -33,6 +33,7 @@ namespace bertonisolutionsminiproject.Controllers
 
             var viewModel = new AlbumPhotosViewModel()
             {
+                AlbumId = id,
                 Photos = albumPhotos.Select(photo => new AlbumPhotoViewModel(photo.Id, photo.Title, photo.Url, photo.ThumbnailUrl)).ToList(),
             };
 

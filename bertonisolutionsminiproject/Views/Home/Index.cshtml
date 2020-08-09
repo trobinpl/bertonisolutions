@@ -3,41 +3,40 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div id="page" class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <div class="row">
-        <div class="col">
-            <div>
-                <select id="albumsList">
-                    @foreach (var album in Model.Albums)
-                    {
-                        <option value="@album.Id">@album.Title</option>
-                    }
-                </select>
-            </div>
-            <button type="button" id="loadAlbumDetails">View Album</button>
+<div id="page">
+    <div class="flex flex-row">
+        <div class="flex flex-grow">
+            <select class="w-full form-select h-full py-0 pl-2 pr-7 border rounded-md border-gray-300 text-gray-700 sm:text-sm sm:leading-5" id="albumsList">
+                @foreach (var album in Model.Albums)
+                {
+                    <option value="@album.Id">@album.Title</option>
+                }
+            </select>
         </div>
+        <button class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-teal-600 hover:bg-teal-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal active:bg-teal-700 transition duration-150 ease-in-out" type="button" id="loadAlbumDetails">View Album</button>
     </div>
-    <div class="row">
-        <div class="col">
+    <div class="flex mt-8">
+        <div class="w-2/3">
             <div id="albums"></div>
         </div>
-        <div class="col">
+        <div class="w-1/3 ml-4">
             <div id="comments"></div>
         </div>
     </div>
-    
+
 </div>
 
 @section Scripts{
     <script type="text/javascript">
         $(document).ready(function () {
             $('#loadAlbumDetails').click(function () {
+                $('#albums').empty();
                 const albumId = $('#albumsList').val();
                 $('#albums').load(`/Home/LoadAlbumDetails/${albumId}`);
             });
 
             $('#page').on('click', '.loadPhotoComments', function () {
+                $('#comments').empty();
                 const photoId = $(this).data('photo-id');
                 $('#comments').load(`/Home/LoadComments/${photoId}`);
             })
