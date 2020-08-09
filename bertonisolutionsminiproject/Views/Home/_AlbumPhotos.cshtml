@@ -1,0 +1,24 @@
+﻿@model bertonisolutionsminiproject.ViewModels.Home.AlbumPhotosViewModel
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Url</th>
+            <th>Thumbnail Url</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var photo in Model.Photos)
+        {
+        <tr>
+            <td>@photo.Id</td>
+            <td>@photo.Title</td>
+            <td>@photo.Url</td>
+            <td>@photo.ThumbnailUrl</td>
+            <td><button data-photo-id="@photo.Id" class="loadPhotoComments">View Comments</button></td>
+        </tr>
+        }
+    </tbody>
+</table>

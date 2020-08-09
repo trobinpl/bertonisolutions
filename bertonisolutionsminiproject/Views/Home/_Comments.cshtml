@@ -1,0 +1,9 @@
+﻿@model bertonisolutionsminiproject.ViewModels.Home.CommentsViewModel
+@foreach(var comment in Model.Comments)
+{
+    <div>
+        <p>Name: @comment.Name</p>
+        <p>Body: @comment.Body</p>
+        <p>Email: @comment.Email</p>
+    </div>
+}

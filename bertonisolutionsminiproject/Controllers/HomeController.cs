@@ -6,32 +6,54 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using bertonisolutionsminiproject.Models;
+using bertonisolutionsminiproject.HttpClients;
+using bertonisolutionsminiproject.ViewModels.Home;
 
 namespace bertonisolutionsminiproject.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly JsonPlaceholderClient _jsonPlaceholderClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(JsonPlaceholderClient jsonPlaceholderClient)
         {
-            _logger = logger;
+            _jsonPlaceholderClient = jsonPlaceholderClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var albums = await _jsonPlaceholderClient.LoadAlbums();
+
+            var viewModel = new HomeViewModel()
+            {
+                Albums = albums.Select(album => new HomeAlbumViewModel(album.Id, album.Title)).ToList(),
+            };
+
+            return View(viewModel);
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> LoadAlbumDetails(int id)
         {
-            return View();
+            var albumPhotos = await _jsonPlaceholderClient.LoadPhotosForAlbum(id);
+
+            var viewModel = new AlbumPhotosViewModel()
+            {
+                Photos = albumPhotos.Select(photo => new AlbumPhotoViewModel(photo.Id, photo.Title, photo.Url, photo.ThumbnailUrl)).ToList(),
+            };
+
+            return PartialView("_AlbumPhotos", viewModel);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public async Task<IActionResult> LoadComments(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var comments = await _jsonPlaceholderClient.LoadComments(id);
+
+            var viewModel = new CommentsViewModel()
+            {
+                Comments = comments.Select(comment => new CommentViewModel(comment.Name, comment.Email, comment.Body)).ToList(),
+            };
+
+            return PartialView("_Comments", viewModel);
         }
     }
 }

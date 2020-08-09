@@ -1,8 +1,46 @@
-﻿@{
+﻿@model bertonisolutionsminiproject.ViewModels.Home.HomeViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div id="page" class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="row">
+        <div class="col">
+            <div>
+                <select id="albumsList">
+                    @foreach (var album in Model.Albums)
+                    {
+                        <option value="@album.Id">@album.Title</option>
+                    }
+                </select>
+            </div>
+            <button type="button" id="loadAlbumDetails">View Album</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="albums"></div>
+        </div>
+        <div class="col">
+            <div id="comments"></div>
+        </div>
+    </div>
+    
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#loadAlbumDetails').click(function () {
+                const albumId = $('#albumsList').val();
+                $('#albums').load(`/Home/LoadAlbumDetails/${albumId}`);
+            });
+
+            $('#page').on('click', '.loadPhotoComments', function () {
+                const photoId = $(this).data('photo-id');
+                $('#comments').load(`/Home/LoadComments/${photoId}`);
+            })
+        });
+    </script>
+}
